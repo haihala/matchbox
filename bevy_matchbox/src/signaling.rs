@@ -121,7 +121,7 @@ where
     S: SignalingState,
 {
     fn start_server(&mut self, builder: SignalingServerBuilder<Topology, Cb, S>) {
-        self.add(StartServer(builder))
+        self.queue(StartServer(builder))
     }
 }
 
@@ -141,7 +141,7 @@ pub trait StopServerExt {
 
 impl<'w, 's> StopServerExt for Commands<'w, 's> {
     fn stop_server(&mut self) {
-        self.add(StopServer)
+        self.queue(StopServer)
     }
 }
 

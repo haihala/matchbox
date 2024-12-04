@@ -116,9 +116,9 @@ pub trait OpenSocketExt<C: BuildablePlurality> {
     fn open_socket(&mut self, socket_builder: WebRtcSocketBuilder<C>);
 }
 
-impl<'w, 's, C: BuildablePlurality + 'static> OpenSocketExt<C> for Commands<'w, 's> {
+impl<C: BuildablePlurality + 'static> OpenSocketExt<C> for Commands<'_, '_> {
     fn open_socket(&mut self, socket_builder: WebRtcSocketBuilder<C>) {
-        self.add(OpenSocket(socket_builder))
+        self.queue(OpenSocket(socket_builder))
     }
 }
 
@@ -138,9 +138,9 @@ pub trait CloseSocketExt {
     fn close_socket<C: BuildablePlurality + 'static>(&mut self);
 }
 
-impl<'w, 's> CloseSocketExt for Commands<'w, 's> {
+impl CloseSocketExt for Commands<'_, '_> {
     fn close_socket<C: BuildablePlurality + 'static>(&mut self) {
-        self.add(CloseSocket::<C>(PhantomData))
+        self.queue(CloseSocket::<C>(PhantomData))
     }
 }
 
